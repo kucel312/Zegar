@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Klapkowy zegar + mały licznik</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="flip-clock">
+    <div class="flip-unit" id="days"><div class="flip-card"><span>00</span></div><label>Dni</label></div>
+    <div class="flip-unit" id="hours"><div class="flip-card"><span>00</span></div><label>Godz</label></div>
+    <div class="flip-unit" id="minutes"><div class="flip-card"><span>00</span></div><label>Min</label></div>
+    <div class="flip-unit" id="seconds"><div class="flip-card"><span>00</span></div><label>Sek</label></div>
+  </div>
+
+  <!-- Mini licznik + komunikat -->
+  <div class="mini-clock" id="mini-clock">
+    <p id="mini-timer">00 dni, 00:00:00</p>
+    <p id="mini-message" style="display: none;">🎈 doczekałaś się na pierwszą część gratuluje! <br> Z okazji tego masz przywiliej do tego aby dać jakiś pomysł który moge zrobić prośbe lub co chcesz ja sie zgodze na wszystko </p>
+  </div>
+
+  <div id="main-message" class="main-message" style="display: none; margin-top: 20px;"></div>
+
+  <div class="c">❤️</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
