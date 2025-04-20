@@ -65,3 +65,17 @@ function updateCountdown() {
 
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+const egg = document.querySelector('.egg');
+const eggPopup = document.getElementById('egg-image');
+const closeBtn = document.querySelector('.close-egg');
+
+egg.addEventListener('click', () => {
+  if (eggPopup.style.display !== 'block') {
+    eggPopup.style.display = 'block';
+  }
+});
+
+closeBtn.addEventListener('click', () => {
+  eggPopup.style.display = 'none';
+});
