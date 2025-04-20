@@ -79,3 +79,15 @@ egg.addEventListener('click', () => {
 closeBtn.addEventListener('click', () => {
   eggPopup.style.display = 'none';
 });
+const egg2 = document.querySelector('.egg2');
+const eggPopup2 = document.getElementById('egg2-image');
+const closeBtn2 = document.querySelector('.close-egg2');
+
+egg2.addEventListener('click', () => {
+  eggPopup2.style.display = 'block';
+});
+
+closeBtn2.addEventListener('click', () => {
+  eggPopup2.style.display = 'none';
+  egg2.style.display = 'none'; // znika po zamknięciu
+});
