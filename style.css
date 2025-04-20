@@ -190,7 +190,7 @@ body {
   to { opacity: 1; }
 }
 
-egg2 {
+.egg2 {
   font-size: 0.6em;
   opacity: 0.15;
   cursor: pointer;
