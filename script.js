@@ -20,7 +20,7 @@ function updateUnit(id, newValue) {
 function updateCountdown() {
   const now = new Date();
 
-  // GŁÓWNY ZEGAR — do 16 maja
+
   const targetMain = new Date("2025-05-15T22:30:00");
   const diffMain = targetMain - now;
   const mainMessage = document.getElementById('main-message');
@@ -42,7 +42,7 @@ function updateCountdown() {
     mainMessage.style.display = 'none';
   }
 
-  // MINI ZEGAR — do 4 maja
+
   const targetMini = new Date("2025-05-04T22:00:00");
   const diffMini = targetMini - now;
 
@@ -78,6 +78,7 @@ egg.addEventListener('click', () => {
 
 closeBtn.addEventListener('click', () => {
   eggPopup.style.display = 'none';
+  egg.style.display = 'none'; // schowaj jajko po zamknięciu
 });
 
 const egg2 = document.querySelector('.egg2');
