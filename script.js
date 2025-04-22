@@ -65,31 +65,3 @@ function updateCountdown() {
 
 updateCountdown();
 setInterval(updateCountdown, 1000);
-
-const egg = document.querySelector('.egg');
-const eggPopup = document.getElementById('egg-image');
-const closeBtn = document.querySelector('.close-egg');
-
-egg.addEventListener('click', () => {
-  if (eggPopup.style.display !== 'block') {
-    eggPopup.style.display = 'block';
-  }
-});
-
-closeBtn.addEventListener('click', () => {
-  eggPopup.style.display = 'none';
-  egg.style.display = 'none'; // schowaj jajko po zamknięciu
-});
-
-const egg2 = document.querySelector('.egg2');
-const eggPopup2 = document.getElementById('egg2-image');
-const closeBtn2 = document.querySelector('.close-egg2');
-
-egg2.addEventListener('click', () => {
-  eggPopup2.style.display = 'block';
-});
-
-closeBtn2.addEventListener('click', () => {
-  eggPopup2.style.display = 'none';
-  egg2.style.display = 'none'; // znika po zamknięciu
-});
