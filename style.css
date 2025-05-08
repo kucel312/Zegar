@@ -107,20 +107,27 @@ body {
     padding: 10px;
   }
 }
-.secret-button {
-  position: fixed;
-  bottom: 10px;
-  left: 10px;
-  width: 30px;
-  height: 30px;
-  background-color: rgba(255, 255, 255, 0.1); 
-  border-radius: 50%;
-  z-index: 10;
-  transition: background-color 0.3s ease;
+.link-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  font-size: 1em;
+  font-style: italic;
+  border: 2px solid rgba(255, 255, 255, 0.2);  /* delikatna obwódka */
+  border-radius: 25px;
+  text-decoration: none;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
 }
 
-.secret-button:hover {
-  background-color: rgba(255, 255, 255, 0.3); 
+.link-button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffe;
+  transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .hint-button {
@@ -138,4 +145,3 @@ body {
   color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
 }
-
