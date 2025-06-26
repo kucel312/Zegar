@@ -42,8 +42,8 @@ function updateCountdown() {
     mainMessage.style.display = 'none';
   }
 
-/*
-  const targetMini = new Date("2025-05-04T20:00:00");
+
+  const targetMini = new Date("2025-12-04T00:00:00");
   const diffMini = targetMini - now;
 
   const miniTimer = document.getElementById('mini-timer');
@@ -62,8 +62,8 @@ function updateCountdown() {
     miniMessage.style.display = 'none';
   }
 }
-*/
-}
+
+
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
