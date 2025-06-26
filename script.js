@@ -43,7 +43,7 @@ function updateCountdown() {
   }
 
 
-  const targetMini = new Date("2025-08-04T00:00:00");
+  const targetMini = new Date("2025-12-04T00:00:00");
   const diffMini = targetMini - now;
 
   const miniTimer = document.getElementById('mini-timer');
