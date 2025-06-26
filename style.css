@@ -133,7 +133,7 @@ body {
   border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* przycisk z trzema kropkami */
+/* przycisk z trzema kropkami 
 .hint-button {
   position: fixed;
   top: 10px;
@@ -149,3 +149,4 @@ body {
   color: rgba(255, 255, 255, 0.4);
   cursor: pointer;
 }
+*/
