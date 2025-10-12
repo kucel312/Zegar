@@ -1,34 +1,248 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>Podpowiedz</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Podpowiedz – Listy</title>
   <style>
-    body {
-      background: #111;
-      color: #fff;
-      font-family: monospace;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+    :root{
+      --bg:#111;
+      --fg:#fff;
+      --accent:#7effa0;
+      --panel:#1e1e1e;
+      --shadow:0 0 15px rgba(126,255,160,.25);
+      --radius:12px;
+      --space:clamp(12px,2.5vw,24px);
     }
-    a {
-      color: #7effa0;
-      margin: 10px;
-      text-decoration: none;
-      font-size: 1.5em;
+
+    /* RESETY I BAZA */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      min-height:100dvh;               /* lepsze na mobile */
+      background:var(--bg);
+      color:var(--fg);
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:clamp(8px,1.5vw,16px);
+      padding: clamp(12px, 3vw, 32px);
+      overflow-x:hidden;
     }
-    a:hover {
-      color: #fff;
+    body.lock{overflow:hidden}
+
+    h1{
+      margin:0;
+      font-size: clamp(20px, 3.8vw, 32px);
+      letter-spacing:.02em;
+      text-align:center;
+    }
+
+    /* PRZYCISKI LISTÓW */
+    .letters{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+      gap: clamp(10px,2vw,16px);
+      width:min(900px, 100%);
+    }
+    .letter-button{
+      background:none;
+      border:2px solid var(--accent);
+      color:var(--accent);
+      font-size: clamp(14px, 2.2vw, 18px);
+      padding: clamp(10px,1.8vw,14px) clamp(14px,2.5vw,22px);
+      border-radius: 10px;
+      cursor:pointer;
+      transition: transform .15s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+      width:100%;
+    }
+    .letter-button:hover{
+      background:var(--accent);
+      color:var(--bg);
+      box-shadow: 0 0 10px var(--accent);
+      transform: translateY(-1px);
+    }
+    .letter-button:active{transform: translateY(0)}
+
+    /* MODAL – domyślnie ukryty */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: clamp(12px, 3vw, 32px);
+      background: rgba(0,0,0,.85);
+      z-index: 10;
+    }
+    .modal.show{display:flex}
+
+    .modal-content{
+      width:min(100%, 720px);
+      max-height: min(85dvh, 900px);
+      background: var(--panel);
+      border:2px solid var(--accent);
+      border-radius: var(--radius);
+      padding: clamp(16px, 3vw, 28px);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:auto;                   /* przewijanie długiego listu */
+      scrollbar-gutter: stable;
+      line-height:1.6;
+    }
+
+    /* Przyjemna typografia w modalu */
+    .modal-content h2{
+      margin:0 0 .4em 0;
+      font-size: clamp(18px, 3.2vw, 26px);
+    }
+    .letter-text{
+      white-space: pre-line;           /* zachowaj łamania */
+      font-size: clamp(14px,2.4vw,18px);
+      text-align: left;
+      word-break: break-word;
+    }
+
+    /* Close (krzyżyk) – większy obszar dotyku */
+    .close-btn{
+      position:sticky;
+      top:0;
+      float:right;                     /* żeby był w prawym górnym rogu zawartości */
+      margin:-8px -8px 8px 8px;
+      width: clamp(36px,6vw,44px);
+      height: clamp(36px,6vw,44px);
+      display:grid;
+      place-items:center;
+      border-radius: 10px;
+      font-size: clamp(20px,4.5vw,26px);
+      color: var(--accent);
+      border: 1px solid transparent;
+      cursor:pointer;
+      background: rgba(255,255,255,.03);
+      transition: background .2s ease, color .2s ease, border-color .2s ease;
+    }
+    .close-btn:hover{
+      background: rgba(255,255,255,.06);
+      color:#fff;
+      border-color: rgba(126,255,160,.4);
+    }
+
+    /* Delikatna animacja wejścia */
+    @media (prefers-reduced-motion: no-preference){
+      .modal-content{
+        opacity:0;
+        transform: translateY(8px);
+        transition: opacity .2s ease, transform .2s ease;
+      }
+      .modal.show .modal-content{
+        opacity:1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Mała podpowiedz</h1>
-    <p>„Są tacy, co sadzą kwiaty.
-        A są tacy, co je składają z marzeń i instrukcji.
-        Nie wiem jak Ty, ale ja mam ochotę coś zbudować.”</p>
+  <h1>📜 Wybierz list</h1>
+
+  <div class="letters" aria-label="Lista dostępnych listów">
+    <button class="letter-button" data-target="list1">12.10.2025</button>
+
+  </div>
+
+  <!-- LIST 1 -->
+  <div id="list1" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="t1">
+      <button class="close-btn" type="button" data-close aria-label="Zamknij">&times;</button>
+      <h2 id="t1">List 1 💌</h2>
+      <div class="letter-text">
+Myślałem że te moje najlepsze czasy z życia już dawno przeminęły z wiatrem te czasy gdzie się miało wywalone praktycznie na wszystko się robiło różne rzeczy przejażdżki grille u znajomych i siedzenie podczas korony i granie z znajomymi pod czas lekcji i inne 
+Tak jakoś to przeminęło 
+Ale tego pewnego dnia 6 grudnia pojawiłaś się ty i te nasze rozmowy wieczorny 
+Tak jakoś żyłem swoim życiem i znajomą internetową 
+Przeżywałem te ważne chwile jak matura czekanie na wyniki i początek studiów i ty przy nich towarzyszyłaś 
+Tak jakoś trochę zamotałaś mi w tedy w głowie i no tak chciałem i chciałem tego czasu z tobą 
+I nadeszło z zaskoczenia te spotkanie pierwsze i tak dalej gdzie zaufałaś temu nie pewnemu chłopakowi który jakoś chciał sobą zaskoczyć lub coś ale nie wychodziło ale z biegiem czasu się rozkręcił spotkań więcej było i się stało że żem się zakochał 
+Tego nie żałuję 
+I to jest ten najlepszy czas w moim życiu pomimo że nie zawsze jest kolorowo to jest i tak 
+Przeżywanie tych pierwszych wspólnych chwil było cudowne ale nie chcę tego kończyć 
+Jak tak jeździłem po tych weselach festynach czy też nad tym morzem i widziałem te wszystkie pary inne w myśli miałem jedno że też tak chcę z tobą 
+Po ostatniej tej sprzeczce uświadomiłem sobie jeszcze bardziej jedno że się boję ciebie stracić i to w luj 
+To by była najgorsza rzecz na tym świecie co by spotkało 
+Będę walczył będę aż zabraknie mi sił będę przy tobie aż do końca
+Żyje w nadzieję że takie chwile wspólne będą codziennością i będziemy mogli robić co tylko chcemy 
+Bo no chcę ciebie tylko w tym moim życiu bez względu na wszystko
+Chcę tej mojej najcudowniejszej najwspanialszej najpiękniejszej Kamili na świecie 
+To jest moje możenie aby ciebie nie stracić i żyć razem aż do końca 
+Będę się starał je zrealizować pomimo wszystko 
+Bo zostaje przy tobie i się nie poddaje
+Kocham cię Kamilo ❤️️
+Twój na zawsze Igor❤️
+Ps
+Pomimo wszystko nie ważne jaki czas nas napotka czy ten dobry czy zły to daje będę przy tobie na dobre złe kochać będę dalej kocham z całej siły wyczekuje każdej chwili z tobą jak i naszych spotkań w tedy to jest najcudowniejszy czas na całym świecie gdzie o wszystkim zapominam i skupiam się tylko na tobie . Tylko ty jesteś moją najcudowniejszą najwspanialszą najpiękniejsza kobietą na tym świecie i Cibie nie zostawię ani nic. Będę trwać aż do końca swych dni przy tobie oraz te dodatkowe pięć dla pewności.
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST 2 (przykład / szablon) -->
+  <div id="list2" class="modal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="t2">
+      <button class="close-btn" type="button" data-close aria-label="Zamknij">&times;</button>
+      <h2 id="t2">List 2 🌙</h2>
+      <div class="letter-text">
+Tu możesz wkleić drugi list. 
+Łamania linii będą zachowane, a długi tekst przewinie się w środku okienka.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // zapamiętanie aktualnie fokusem sterowanego elementu
+    let lastFocused = null;
+
+    function openById(id){
+      const modal = document.getElementById(id);
+      if(!modal) return;
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden','false');
+      document.body.classList.add('lock');
+
+      // zapamiętaj i ustaw fokus na krzyżyk
+      lastFocused = document.activeElement;
+      const closeBtn = modal.querySelector('[data-close]');
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeModal(modal){
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden','true');
+      document.body.classList.remove('lock');
+      // przywróć fokus na poprzedni element (np. przycisk listu)
+      if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+    }
+
+    // Obsługa kliknięć przycisków listów
+    document.querySelectorAll('.letter-button').forEach(btn=>{
+      btn.addEventListener('click', ()=> openById(btn.dataset.target));
+    });
+
+    // Zamknięcie: X i klik w tło
+    document.querySelectorAll('.modal').forEach(modal=>{
+      modal.addEventListener('click', (e)=>{
+        if(e.target === modal) closeModal(modal);
+      });
+      const x = modal.querySelector('[data-close]');
+      if (x) x.addEventListener('click', ()=> closeModal(modal));
+    });
+
+    // ESC zamyka aktywne modale
+    window.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape'){
+        document.querySelectorAll('.modal.show').forEach(closeModal);
+      }
+    });
+  </script>
 </body>
 </html>
