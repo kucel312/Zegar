@@ -21,7 +21,7 @@ function updateCountdown() {
   const now = new Date();
 
 
-  const targetMain = new Date("2025-11-05T18:48:00");
+  const targetMain = new Date("2025-11-06T19:48:00");
   const diffMain = targetMain - now;
   const mainMessage = document.getElementById('main-message');
 
